@@ -50,7 +50,9 @@ core-item[lines] {
 	    this.r[i].active=!this.r[i].active;
 	  }
 	  else {
-	    this.r[i].active=false;
+	    if (this.r[i].active) {
+	      this.r[i].active=false;
+            }
 	  }
         }
       },
