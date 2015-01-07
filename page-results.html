@@ -1,0 +1,65 @@
+<link rel="import" href="bower_components/core-item/core-item.html">
+<link rel="import" href="bower_components/core-menu/core-menu.html">
+<link rel="import" href="bower_components/paper-dropdown/paper-dropdown.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
+<polymer-element name="page-results" attributes="r loading">
+<template>
+<style>
+core-item[lines] {
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+</style>
+<core-menu id="menu">
+ <core-item id="loading">
+   <paper-spinner active></paper-spinner>
+ </core-item>
+  <template id="results" repeat="{{r in r}}">
+   <core-item lines>
+    <paper-item flex noink id="p{{r.id}}"><a on-click="{{toggle}}" data-id="{{r.id}}"
+    >{{r.title}}</a></paper-item>
+   </core-item>
+   <template if="{{r.active}}">
+     <paper-menu-button style="float: right;">
+	<paper-icon-button icon="more-vert" style="color: #aaa"></paper-icon-button>
+	<paper-dropdown class="dropdown" halign="right">
+	  <core-menu class="menu">
+	      <paper-item data-id="{{r.id}}" on-click="{{dosomething}}">Do something</paper-item>
+	      <paper-item data-id="{{r.id}}" on-click="{{doother}}">Do other stuff</paper-item>
+	  </core-menu>
+	</paper-dropdown>
+     </paper-menu-button>
+     <core-item flex>{{r.desc}}</core-item>
+     <core-item style="clear: both;">
+      <img src="{{r.img}}">
+     </core-item>
+   </template>
+  </template>
+</core-menu>
+</template>
+  <script>
+    Polymer('page-results', {
+      stop: function() {
+        this.$.loading.hidden=true;
+      },
+      toggle: function(event,detail,sender) {
+	for (i in this.r) {
+	  if (this.r[i].id==sender.dataset.id) {
+	    this.r[i].active=!this.r[i].active;
+	  }
+	  else {
+	    this.r[i].active=false;
+	  }
+        }
+      },
+      dosomething: function(event,detail,sender) {
+	console.log("dosomething");
+      },
+      doother: function(event,detail,sender) {
+	console.log("doother");
+      },
+    });
+  </script>
+</polymer-element>
