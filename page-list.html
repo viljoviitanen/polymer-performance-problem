@@ -1,0 +1,63 @@
+<link rel="import" href="bower_components/core-item/core-item.html">
+<link rel="import" href="bower_components/core-list/core-list.html">
+<link rel="import" href="bower_components/core-menu/core-menu.html">
+<link rel="import" href="bower_components/core-overlay/core-overlay.html">
+<link rel="import" href="bower_components/paper-dropdown/paper-dropdown.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
+<polymer-element name="page-list" attributes="r loading" layout vertical>
+<template>
+<style>
+core-item[lines] {
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  height: 48px;
+}
+</style>
+ <core-overlay id="overlay" layered backdrop>
+    <div style="background:white; width:100vw" core-overlay-toggle>
+     <paper-menu-button style="float: right;">
+	<paper-icon-button icon="more-vert" style="color: #aaa"></paper-icon-button>
+	<paper-dropdown class="dropdown" halign="right">
+	  <core-menu class="menu">
+	      <paper-item data-id="{{oid}}" on-click="{{dosomething}}">Do something</paper-item>
+	      <paper-item data-id="{{oid}}" on-click="{{doother}}">Do other stuff</paper-item>
+	  </core-menu>
+	</paper-dropdown>
+     </paper-menu-button>
+     <core-item flex core-overlay-toggle>{{odesc}}</core-item>
+     <img src="{{oimg}}" style="clear: both;">
+    </div>
+ </core-overlay>
+ <div id="loading">
+   <paper-spinner active></paper-spinner>
+ </div>
+ <core-list id="list" data="{{r}}" flex height=48 on-core-activate="{{toggle}}" >
+  <template>
+   <core-item lines>{{model.title}}</core-item>
+  </template>
+ </core-list>
+</template>
+  <script>
+    Polymer('page-list', {
+      stop: function() {
+        this.$.loading.hidden=true;
+      },
+      toggle: function(event,detail,sender) {
+	this.oid=detail.data.id;
+	this.odesc=detail.data.desc;
+	this.oimg=detail.data.img;
+	this.$.overlay.toggle();
+      },
+      dosomething: function(event,detail,sender) {
+	console.log("dosomething");
+	console.log(sender.dataset.id);
+      },
+      doother: function(event,detail,sender) {
+	console.log("doother");
+	console.log(sender.dataset.id);
+      },
+    });
+  </script>
+</polymer-element>

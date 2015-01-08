@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<script 
+  src="bower_components/webcomponentsjs/webcomponents.js">
+</script>
+<link rel="import" href="page-list.html">
+</head>
+<body fit>
+<page-list style="height: 100%"></page-list>
+<script>
+window.addEventListener('WebComponentsReady', function() {
+  //"simulate" an ajax response
+  setTimeout(function(){
+    var url="https://www.google.com/logos/doodles/2015/holidays-2015-day-2-eastern-europe-4871453262479360-hp.jpg";
+    document.querySelector('page-list').stop();
+    var m=[];
+    for (i=0; i<500; i++) {
+      m.push({ "id":i, "title":"title "+i, "desc":"description value "+i, "img":url });
+    }
+    document.querySelector('page-list').r=m;
+  }, 1000);
+});
+</script>
+</body>
+</html>
